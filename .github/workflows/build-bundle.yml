@@ -1,4 +1,4 @@
-name: Build and Deploy UI Bundle
+name: Build and Publish UI Bundle to Release
 
 on:
   push:
@@ -6,49 +6,24 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  release:
     runs-on: ubuntu-latest
 
     steps:
       # Step 1: Checkout the repository
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Step 2: Set Git Identity
-      - name: Configure Git
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-
-      # Step 3: Create the zip file
-      - name: Create UI Bundle Zip
+      # Step 2: Create the zip file
+      - name: Create UI Bundle
         run: |
           mkdir -p build
           zip -r build/ui-bundle.zip ./*
 
-      # Step 4: Checkout or Create 'bundle' Branch
-      - name: Prepare Bundle Branch
-        run: |
-          git fetch origin bundle || echo "No bundle branch exists; creating one"
-          git checkout -B bundle
-
-      # Step 5: Clear Existing Files in the Branch
-      - name: Clear Branch Files
-        run: |
-          rm -rf ./*
-          git add .
-          git commit -m "Clear existing files for new bundle" || echo "Nothing to clear"
-
-      # Step 6: Add and Commit the New Zip File
-      - name: Add and Commit UI Bundle
-        run: |
-          mv build/ui-bundle.zip .
-          git add ui-bundle.zip
-          git commit -m "Update UI bundle on push to main" || echo "No changes to commit"
-
-      # Step 7: Push Changes to the 'bundle' Branch
-      - name: Push to Bundle Branch
-        run: |
-          git push origin bundle --force
+      # Step 3: Create a Release and Upload the Bundle
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: build/ui-bundle.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
