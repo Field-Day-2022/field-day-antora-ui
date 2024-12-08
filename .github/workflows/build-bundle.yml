@@ -21,28 +21,34 @@ jobs:
           git config --global user.email "actions@github.com"
 
       # Step 3: Create the zip file
-      - name: Zip the UI bundle
+      - name: Create UI Bundle Zip
         run: |
           mkdir -p build
           zip -r build/ui-bundle.zip ./*
 
-      # Step 4: Switch to the 'bundle' branch
-      - name: Checkout or Create Bundle Branch
+      # Step 4: Checkout or Create 'bundle' Branch
+      - name: Prepare Bundle Branch
         run: |
-          git fetch origin bundle || echo "No existing bundle branch"
+          git fetch origin bundle || echo "No bundle branch exists; creating one"
           git checkout -B bundle
 
-      # Step 5: Clear the branch and add the zip file
-      - name: Clear Branch and Add Zip
+      # Step 5: Clear Existing Files in the Branch
+      - name: Clear Branch Files
         run: |
-          rm -rf *
+          rm -rf ./*
+          git add .
+          git commit -m "Clear existing files for new bundle" || echo "Nothing to clear"
+
+      # Step 6: Add and Commit the New Zip File
+      - name: Add and Commit UI Bundle
+        run: |
           mv build/ui-bundle.zip .
           git add ui-bundle.zip
-
-      # Step 6: Commit and Push Changes
-      - name: Commit and Push
-        run: |
           git commit -m "Update UI bundle on push to main" || echo "No changes to commit"
+
+      # Step 7: Push Changes to the 'bundle' Branch
+      - name: Push to Bundle Branch
+        run: |
           git push origin bundle --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
