@@ -1,0 +1,42 @@
+name: Build and Deploy UI Bundle
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Create the zip file
+      - name: Zip the UI bundle
+        run: |
+          mkdir -p bundle
+          zip -r bundle/ui-bundle.zip ./*
+
+      # Step 3: Checkout the 'bundle' branch
+      - name: Checkout the bundle branch
+        run: |
+          git fetch origin bundle || git branch bundle
+          git checkout -B bundle
+
+      # Step 4: Copy the zip to the branch
+      - name: Move zip to bundle branch
+        run: |
+          mkdir -p ui
+          mv bundle/ui-bundle.zip ui/ui-bundle.zip
+
+      # Step 5: Commit and push changes
+      - name: Commit and push the zip file
+        run: |
+          git add ui/ui-bundle.zip
+          git commit -m "Update UI bundle on push to main" || echo "No changes to commit"
+          git push origin bundle --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
