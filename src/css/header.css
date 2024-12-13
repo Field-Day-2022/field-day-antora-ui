@@ -8,6 +8,15 @@ body {
   padding-top: var(--navbar-height);
 }
 
+.brand-logo {
+  background-image: url(../img/logo.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 2.5rem;
+  width: 2.5rem;
+  margin-right: 0.5rem;
+}
+
 .navbar {
   background: var(--navbar-background);
   color: var(--navbar-font-color);
