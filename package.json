@@ -1,11 +1,11 @@
 {
-  "name": "@antora/ui-default",
-  "description": "An archetype project that produces a UI for creating documentation sites with Antora",
-  "homepage": "https://gitlab.com/antora/antora-ui-default",
+  "name": "field-day-antora-ui",
+  "description": "A UI for Antora designed for the Field Day project",
+  "homepage": "https://github.com/Field-Day-2022/field-day-antora-ui",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/antora/antora-ui-default.git"
+    "url": "https://github.com/Field-Day-2022/field-day-antora-ui"
   },
   "engines": {
     "node": ">= 8.0.0"
