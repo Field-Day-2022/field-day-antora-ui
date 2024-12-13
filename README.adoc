@@ -13,10 +13,16 @@
 :url-git: https://git-scm.com
 :url-nodejs: https://nodejs.org
 :url-gulp: https://gulpjs.com
+:url-asubrand: https://brandguide.asu.edu
 
 image:{img-ci-status}[CI Status (GitHub Actions), link={url-ci-pipelines}]
 
 This project is a customized version of the Antora Default UI, tailored for the Field Day documentation site. It provides branding, navigation updates, and enhanced features specific to Field Day's needs.
+
+[NOTE]
+====
+Field Day is developed by ASU software engineering students as a capstone project. While not officially affiliated with Arizona State University, this UI adheres to ASU's branding guidelines to maintain a professional and cohesive representation. Refer to the {url-asubrand}[ASU branding guidelines] for more details.
+====
 
 == Use the Field Day UI
 
